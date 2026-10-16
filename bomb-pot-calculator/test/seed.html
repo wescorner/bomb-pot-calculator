@@ -1,0 +1,29 @@
+<!doctype html>
+<html><head><meta charset="utf-8"></head>
+<body>
+<script>
+  // Seeds the side-pot scenario from engine.test.js and opens the payouts page.
+  const b = (b1, b2) => ({ t: 'board', b1: b1.split(' '), b2: b2.split(' ') });
+  const a = (kind, to) => ({ t: 'act', kind, to });
+  const state = {
+    step: 4,
+    cfg: { n: 3, holeCount: 4, ante: '5', minBet: '5', chip: '1', currency: '$' },
+    players: [
+      { name: 'Ann', stack: '30', cards: ['As', 'Ad', 'Kh', 'Qh'] },
+      { name: 'Bob', stack: '200', cards: ['9c', '9d', '8s', '7s'] },
+      { name: 'Cat', stack: '200', cards: ['Jh', 'Th', '3c', '2c'] },
+    ],
+    button: 0,
+    events: [
+      b('Ah 9s 4h', 'Kc 8c 2d'), a('raise', 1500), a('call'), a('raise', 2500), a('raise', 6000), a('call'),
+      b('2s', '5c'), a('check'), a('check'), b('7d', 'Qc'), a('check'), a('check'),
+    ],
+  };
+  const step = new URLSearchParams(location.search).get('step');
+  if (step) state.step = +step;
+  if (state.step === 3) state.events = state.events.slice(0, 3);
+  localStorage.setItem('bomb-pot-calc-v1', JSON.stringify(state));
+  location.href = '../index.html';
+</script>
+</body>
+</html>
